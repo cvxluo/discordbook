@@ -1,2 +1,2 @@
-from book import Book
-from chapter import Chapter
+from .book import Book
+from .chapter import Chapter
