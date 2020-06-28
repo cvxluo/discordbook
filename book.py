@@ -1,5 +1,6 @@
 
 import discord
+import asyncio
 
 # do i need this
 from math import ceil
@@ -18,7 +19,7 @@ class Book (object) :
 
         self.pages = self.generate_pages()
 
-    
+
     def generate_pages(self) :
         pages = []
         
@@ -107,3 +108,64 @@ class Book (object) :
 
         return self.pages[self.page_number]
 
+
+    async def open_book(self, discord_client, channel, author = None) :
+
+        book_message = await channel.send(embed = self.get_current_page())
+
+        OPTIONS = [
+            '\U000023ea', # Reverse
+            '\U00002b05', # Left Arrow
+            '\U000027a1', # Right Arrow
+            '\U000023e9', # Fast Forward
+        ]
+
+        OPTIONS_EMOJI = [
+            '⏪', # Reverse
+            '⬅', # Left Arrow
+            '➡', # Right Arrrow
+            '⏩', # Fast Forward
+        ]
+
+        OPTIONS_ENCODED = [
+            '\U000023ea'.encode('utf-8'), # Reverse
+            '\U00002b05'.encode('utf-8'), # Left Arrow
+            '\U000027a1'.encode('utf-8'), # Right Arrow
+            '\U000023e9'.encode('utf-8'), # Fast Forward
+        ]
+
+        for option in OPTIONS :
+            await book_message.add_reaction(option)
+
+
+        def check_response(reaction, user) :
+            # Odd that this reaction check doesn't work well - seems to be some weird matching issue with what wait_for gets and their versions in Python
+            # return reaction in OPTIONS_EMOJI and user == message.author
+            return str(reaction).encode('utf-8') in OPTIONS_ENCODED and (not author or user == author)
+
+        try :
+            while True :
+                reaction, user = await discord_client.wait_for('reaction_add', timeout=5.0, check=check_response)
+
+                reaction = str(reaction).encode('utf-8')
+
+                if reaction == '\U00002b05'.encode('utf-8') :
+                    self.one_page_backward()
+
+                elif reaction == '\U000027a1'.encode('utf-8') :
+                    self.one_page_forward()
+
+                elif reaction == '\U000023ea'.encode('utf-8') :
+                    self.page_backward(5)
+
+                elif reaction == '\U000023e9'.encode('utf-8') :
+                    self.page_forward(5)
+
+                new_embed = self.get_current_page()
+                await book_message.edit(embed = new_embed)
+
+
+
+        except asyncio.TimeoutError:
+            await channel.send('Timed out...')
+            await book_message.clear_reactions()

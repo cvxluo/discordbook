@@ -12,3 +12,6 @@ Generate all pages at the start, then parse through
 Bookmark feature to come back to this page after?
 
 Books are static once generated
+
+Make custom options for browsing - a custom parameter that takes a dict of possible emoji - page change combinations?
+Note that the whole process is blocking right now because of the while True
