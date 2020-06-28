@@ -10,3 +10,5 @@ Page - Combination of chapter headers and lines that can be displayed on the emb
 Maybe develop ordering of chapters based of lt? (less than)
 Generate all pages at the start, then parse through
 Bookmark feature to come back to this page after?
+
+Books are static once generated

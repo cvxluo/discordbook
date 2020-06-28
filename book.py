@@ -14,6 +14,7 @@ class Book (object) :
         self.color = color
         self.per_page = per_page
         self.page_number = 0
+        self.total_page_count = -1
 
         self.pages = self.generate_pages()
 
@@ -30,8 +31,8 @@ class Book (object) :
         on_chapter = 0
         on_line = 0
 
-        total_page_count = ceil(line_count / self.per_page)
-        for page_num in range(total_page_count) :
+        self.total_page_count = ceil(line_count / self.per_page)
+        for page_num in range(self.total_page_count) :
             embed = discord.Embed(title=self.title, description=self.description, color=self.color)
 
             lines_to_fill = self.per_page
@@ -64,7 +65,7 @@ class Book (object) :
                     on_chapter += 1
 
 
-            embed.set_footer(text = "Page: " + str(page_num + 1) + "/" + str(total_page_count))
+            embed.set_footer(text = "Page: " + str(page_num + 1) + "/" + str(self.total_page_count))
             pages.append(embed)
 
 
@@ -77,17 +78,17 @@ class Book (object) :
 
 
     def one_page_forward(self) :
-        self.page_number += 1 if (self.page_number + 1) * self.per_page < sum([len(x) for x in self.chapters.values()]) else 0
+        self.page_number += 1 if self.page_number + 1 < self.total_page_count else 0
 
     def one_page_backward(self) :
         self.page_number -= 1 if self.page_number > 0 else 0
 
 
     def page_forward(self, num_pages_forward) :
-        self.page_number += num_pages_forward if (self.page_number + num_pages_forward) * self.per_page < sum([len(x) for x in self.chapters.values()]) else 0
+        self.page_number += num_pages_forward if (self.page_number + num_pages_forward) < self.total_page_count else (self.total_page_count - 1)
 
     def page_backward(self, num_pages_backward) :
-        self.page_number -= num_pages_backward if self.page_number - num_pages_backward >= 0 else 0
+        self.page_number -= num_pages_backward if self.page_number - num_pages_backward >= 0 else self.page_number
 
 
 
