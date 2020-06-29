@@ -54,14 +54,17 @@ class Book (object) :
 
 
                 else : # if on_line + lines_to_fill >= chapter_count[on_chapter], in which case we fill out the rest of the chapter and go to the next chapter
-                    field_content = ''
 
-                    # Get rest of chapter
-                    for line in self.chapters[on_chapter].get_lines(on_line, chapter_count[on_chapter]) :
-                        field_content += line + '\n'
+                    if chapter_count[on_chapter] : # If this chapter has no lines, skip adding the field
+                        field_content = ''
 
-                    embed.add_field(name = self.chapters[on_chapter].get_title(), value = field_content, inline = False) 
-                    lines_to_fill -= (chapter_count[on_chapter] - on_line)
+                        # Get rest of chapter
+                        for line in self.chapters[on_chapter].get_lines(on_line, chapter_count[on_chapter]) :
+                            field_content += line + '\n'
+
+                        embed.add_field(name = self.chapters[on_chapter].get_title(), value = field_content, inline = False) 
+                        lines_to_fill -= (chapter_count[on_chapter] - on_line)
+                        
                     on_line = 0
                     on_chapter += 1
 
@@ -86,7 +89,7 @@ class Book (object) :
 
 
     def page_forward(self, num_pages_forward) :
-        self.page_number += num_pages_forward if (self.page_number + num_pages_forward) < self.total_page_count else (self.total_page_count - 1)
+        self.page_number += num_pages_forward if (self.page_number + num_pages_forward) < self.total_page_count else (self.total_page_count - self.page_number - 1)
 
     def page_backward(self, num_pages_backward) :
         self.page_number -= num_pages_backward if self.page_number - num_pages_backward >= 0 else self.page_number
@@ -145,7 +148,7 @@ class Book (object) :
 
         try :
             while True :
-                reaction, user = await discord_client.wait_for('reaction_add', timeout=5.0, check=check_response)
+                reaction, user = await discord_client.wait_for('reaction_add', timeout=10.0, check=check_response)
 
                 reaction = str(reaction).encode('utf-8')
 

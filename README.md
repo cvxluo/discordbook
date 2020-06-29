@@ -15,3 +15,5 @@ Books are static once generated
 
 Make custom options for browsing - a custom parameter that takes a dict of possible emoji - page change combinations?
 Note that the whole process is blocking right now because of the while True
+
+Default alphabetical book?

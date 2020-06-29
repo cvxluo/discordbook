@@ -8,6 +8,7 @@ class Chapter (object) :
         self.title = title
         self.lines = lines
 
+    # Helpers
     def get_title(self) :
         return self.title
 
@@ -20,6 +21,20 @@ class Chapter (object) :
     def get_line(self, line_num) :
         return self.lines[line_num]
 
+    def is_empty(self) :
+        return len(lines) == 0
+
+
+    # Modifiers
+    def add_line(self, line) :
+        self.lines.append(line)
+
+    def add_line_at(self, line, pos) :
+        self.lines.insert(pos, line)
+        
+        
+
+    # Magic
     def __len__ (self) :
         return len(self.lines)
 
