@@ -31,7 +31,6 @@ class AlphabeticalBook (Book) :
 
         if self.ignore_caps :
             sorted_content = sorted(self.content, key = str.casefold)
-            print("CONTENT " + str(sorted_content))
             line_num = 0
             for i in range(65, 91) :
                 chapter_lines = []

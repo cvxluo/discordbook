@@ -170,5 +170,4 @@ class Book (object) :
 
 
         except asyncio.TimeoutError:
-            await channel.send('Timed out...')
             await book_message.clear_reactions()
