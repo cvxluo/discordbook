@@ -8,11 +8,12 @@ from math import ceil
 
 class Book (object) :
 
-    def __init__ (self, chapters = [], title = "\a", description = '\a', color = 1, per_page = 10) :
+    def __init__ (self, chapters = [], title = "\a", description = '\a', color = 1, image = None, per_page = 10) :
         self.chapters = chapters
         self.title = title
         self.description = description
         self.color = color
+        self.image = image
         self.per_page = per_page
         self.page_number = 0
         self.total_page_count = -1
@@ -35,6 +36,8 @@ class Book (object) :
         self.total_page_count = ceil(line_count / self.per_page)
         for page_num in range(self.total_page_count) :
             embed = discord.Embed(title=self.title, description=self.description, color=self.color)
+            if (self.image) :
+                embed.set_image(url=self.image)
 
             lines_to_fill = self.per_page
 

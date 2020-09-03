@@ -5,7 +5,7 @@ with open("README.md", "r") as fh:
 
 setuptools.setup(
     name="discordbook", 
-    version="0.2.3",
+    version="0.2.4",
     author="Charlie Luo",
     author_email="charliexluo@gmail.com",
     description="A Discord.py module to facilitate easier viewing for large amounts of content.",

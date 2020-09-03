@@ -8,12 +8,13 @@ from .chapter import Chapter
 
 class AlphabeticalBook (Book) :
 
-    def __init__ (self, content = [], title = "\a", description = '\a', color = 1, per_page = 10, ignore_caps = True) :
+    def __init__ (self, content = [], title = "\a", description = '\a', color = 1, image = None, per_page = 10, ignore_caps = True) :
         self.content = content
         self.chapters = []
         self.title = title
         self.description = description
         self.color = color
+        self.image = image
         self.per_page = per_page
         self.page_number = 0
         self.total_page_count = -1

@@ -17,8 +17,38 @@ Example of a well-formatted book display:
 ### Options
 Currently, 2 types of books are supported - a default book with the following default parameters:
 ```python
-Book(chapters = [], title = "\a", description = '\a', color = 1, per_page = 10)
+Book(chapters = [], title = "\a", description = '\a', color = 1, image = None, per_page = 10)
 ```
+
+### Example usage of Book:
+```python
+from discordbook import Book
+
+# Creating the content for the book
+lines1 = ["test line 1", "test line 2", "test line 3"]
+chapter1 = Chapter("Test Chapter 1", lines1)
+
+lines2 = ["test line 1", "test line 2", "test line 3"]
+chapter2 = Chapter("Test Chapter 2", lines2)
+
+lines3 = ["test line 1", "test line 2", "test line 3"]
+chapter3 = Chapter("Test Chapter 3", lines3)
+
+lines4 = ["test line 1", "test line 2", "test line 3"]
+chapter4 = Chapter("Test Chapter 4", lines4)
+
+lines5 = ["test line 1", "test line 2", "test line 3"]
+chapter5 = Chapter("Test Chapter 5", lines5)
+
+# Initializing the object itself
+item_book = Book([chapter1, chapter2, chapter3, chapter4, chapter5], "Test Book", "Test book Desc")
+
+# A blocking method that will send and constantly update the book display
+await item_book.open_book(client, message.channel, message.author)
+```
+
+![](assets/discordbookexample3.png)
+
 
 And an alphabetically ordered book with the following default parameters:
 ```python
